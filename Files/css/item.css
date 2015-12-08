@@ -1,0 +1,39 @@
+body {
+  background-image: url("../images/bg.png");
+  background-repeat: repeat;
+
+  color: white;
+  font-family: "Segoe UI", arial, sans-serif;
+}
+
+img#item-icon {
+  width: 28px;
+  height: 28px;
+
+  vertical-align: middle;
+}
+
+.basic {
+    color: #fff;
+}
+.fine {
+    color: #4f9dfe;
+}
+.masterwork {
+    color: #2dc50e;
+}
+.rare {
+    color: #ffe51f;
+}
+.exotic {
+    color: #fda500;
+}
+.ascended {
+    color: #ff4488;
+}
+.legendary {
+    color: #a02ef7;
+}
+.error {
+    color: #ff0000;
+}
