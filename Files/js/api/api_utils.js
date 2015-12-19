@@ -1,19 +1,19 @@
 function _apiSetCache(prefix, id, value) {
-  var key = "++Cache++" + prefix + "++" + id;
-  if (value == null) {
-    window.localStorage.removeItem(id);
-  } else {
-    window.localStorage.setItem(id, JSON.stringify(value));
-  }
+    var key = "++Cache++" + prefix + "++" + id;
+    if (value == null) {
+	window.localStorage.removeItem(key);
+    } else {
+	window.localStorage.setItem(key, JSON.stringify(value));
+    }
 }
 
 function _apiGetCache(prefix, id) {
-  var key = "++Cache++" + prefix + "++" + id;
-  var value = window.localStorage.getItem(key);
-  if (value != null) {
-    value = JSON.parse(value);
-  }
-  return value;
+    var key = "++Cache++" + prefix + "++" + id;
+    var value = window.localStorage.getItem(key);
+    if (value != null) {
+	value = JSON.parse(value);
+    }
+    return value;
 }
 
 /////////

@@ -22,12 +22,10 @@ function initApp() {
 	.mouseenter(function(e) {
 	    // appear on entering
 	    moveItemDisplayToCursor(e);
-	    console.log('enter');
 	    localStorage.setItem("item_id", $(this).attr("data-gw2item"));
 	    overwolf.windows.restore("ItemInfoWindow");
 	}).mouseleave(function() {
 	    // minimize on leaving
-	    console.log('leave');
 	    overwolf.windows.minimize("ItemInfoWindow");
 	    localStorage.removeItem("item_id");
 	});
