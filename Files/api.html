@@ -32,15 +32,17 @@
 	  <div id="titlebar" onmousedown="dragMove();">
 	    <h1> API Key Management </h1>
 	    <div class="controls">
-	      <a href="#" onclick="closeWindow();">Close</a>
+	      <button onclick="closeWindow();"><b>x</b></button>
 	    </div>
 	  </div>
-	  <ul id="keys">
+	  
+	  <div id="keys">
 	    
-	  </ul>
+	  </div>
 
-	  <li style="display: none" id="key-row-template">
+	  <div style="display: none" id="key-row-template" class="key_row">
 	    <div class="current_check">
+	      <img src="images/check.png" />
 	    </div>
 	    <div class="buttons">
 	      <button class="use-button"> Select </button>
@@ -50,7 +52,7 @@
 	      <p> <small class="fullkey"> </small> </p>
 	      <p> Account name: <span class="acctname"></span> </p>
 	    </div>
-	  </li>
+	  </div>
 
 	  <div id="nokeys-message">
 	    <p> There are no API keys registered to the app! Here's how to add one: </p>
@@ -62,12 +64,13 @@
 	    
 	  </div>
 
-	  <div id="key-form">
-	    <input type="text" id="newkey"
-		   placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
-	    <input type="button" value="Add Key" id="addkey" />
+	  <div id="footer">
+	    <div id="key-form">
+	      <input type="text" id="newkey"
+		     placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
+	      <input type="button" value="Add Key" id="addkey" />
+	    </div>
 	  </div>
-	  
 	</div>
 </body>
 </html>

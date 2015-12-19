@@ -1,5 +1,40 @@
 #keys {
+    display: flex;
+    flex-direction: column;
+}
+
+#keys .key_row {
+    display: flex;
+    justify-content: space-around;
+}
+
+#keys .current_check {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#keys .current_check img {
+    width: 70px;
+    height: 70px;
+}
+
+#keys .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-basis: content;
+    padding: 5px;
+}
+
+#keys .details {
+    padding: 5px;
     flex-grow: 1;
+}
+
+#keys .details p{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #key-form {
@@ -9,3 +44,4 @@
 #newkey {
     flex-grow: 1;
 }
+

@@ -58,8 +58,10 @@ button:hover, input[type='button']:hover {
 
 #titlebar h1 {
     font-size: 1.2em;
-    font-weight: bold;
+    font-weight: normal;
+    color: #ffeebb;
     margin: 0px;
+    
 }
 
 #titlebar .controls {
@@ -75,8 +77,13 @@ button:hover, input[type='button']:hover {
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
+
+#footer {
+    margin-top: auto;
+}
+/* ------------------------- */
 
 #resizeGripTop {
     height: 5px;
