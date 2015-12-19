@@ -29,6 +29,15 @@ input[type='text'] {
     color: white;
 }
 
+button, input[type='button'] {
+    background: #e7d9d2;
+    color: black;
+    border: thin solid black;
+}
+
+button:hover, input[type='button']:hover {
+    background: #ffe763;
+}
 
 /* ----------------------- */
 

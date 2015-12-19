@@ -1,7 +1,7 @@
 function _apiSetCache(prefix, id, value) {
   var key = "++Cache++" + prefix + "++" + id;
   if (value == null) {
-    window.localStorage.clear(id, JSON.stringify(value));
+    window.localStorage.removeItem(id);
   } else {
     window.localStorage.setItem(id, JSON.stringify(value));
   }

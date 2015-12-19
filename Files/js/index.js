@@ -29,7 +29,7 @@ function initApp() {
 	    // minimize on leaving
 	    console.log('leave');
 	    overwolf.windows.minimize("ItemInfoWindow");
-	    localStorage.clear("item_id");
+	    localStorage.removeItem("item_id");
 	});
 }
 
