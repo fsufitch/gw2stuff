@@ -1,3 +1,4 @@
+
 function moveItemDisplayToCursor(e) {
     // move window with the mouse
     overwolf.windows.getCurrentWindow(function(r) {
@@ -11,13 +12,36 @@ function moveItemDisplayToCursor(e) {
     });
 }
 
-function initApp() {
+function updateApiKey() {
+    var keys = window.localStorage.getItem("API_KEYS") || "{}";
+    keys = JSON.parse(keys);
+
+    var newKeyId = window.localStorage.getItem("CURRENT_KEY_ID");
+
+    console.log("New key: " + newKeyId);
+    if (keys[newKeyId] == null) { // something invalid
+	console.log("invalid");
+	$("#curr-key-name").text("<no key>");
+	return
+    }
+    console.log(keys[newKeyId]);
+    
+    $("#curr-key-name").text(keys[newKeyId].name);
+}
+
+function storageChanged(ev) {
+    console.log(ev);
+    if (ev.key == "CURRENT_KEY_ID") { // key changed, everything changes!
+	updateApiKey();
+    }
+}
+
+function bindInfoHover() {
     overwolf.windows.obtainDeclaredWindow("ItemInfoWindow", function(r) {
 	console.log(r);
     });
-    console.log("binding");
-    console.log($('[data-gw2item]'));
     $('[data-gw2item]')
+	.unbind('mousemove').unbind('mouseenter')
 	.mousemove(moveItemDisplayToCursor)
 	.mouseenter(function(e) {
 	    // appear on entering
@@ -52,6 +76,9 @@ $(document).ready( function() {
 	    overwolf.windows.restore("ApiManagementWindow");
 	});
     });
+
+    window.addEventListener('storage', storageChanged);
+    updateApiKey();
     
-    initApp();
+    bindInfoHover();
 });
