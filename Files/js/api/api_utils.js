@@ -1,15 +1,15 @@
 function _apiSetCache(prefix, id, value) {
   var key = "++Cache++" + prefix + "++" + id;
   if (value == null) {
-    localStorage.clear(id, JSON.stringify(value));
+    window.localStorage.clear(id, JSON.stringify(value));
   } else {
-    localStorage.setItem(id, JSON.stringify(value));
+    window.localStorage.setItem(id, JSON.stringify(value));
   }
 }
 
 function _apiGetCache(prefix, id) {
   var key = "++Cache++" + prefix + "++" + id;
-  var value = localStorage.getItem(key);
+  var value = window.localStorage.getItem(key);
   if (value != null) {
     value = JSON.parse(value);
   }
@@ -28,7 +28,8 @@ function gwGetItem(item_id, cb, cb_err) {
   if (item_id == null || item_id == NaN) return {'error': 'not a number id'};
   cb_err = cb_err || function(e){console.log(e)};
   if (_apiGetCache('item', item_id) != null) {
-    cb(_apiGetCache('item', item_id));
+      cb(_apiGetCache('item', item_id));
+      return;
   }
   _GW2.getItem(item_id, api_settings.language,
     function(data) {
@@ -41,4 +42,20 @@ function gwGetItem(item_id, cb, cb_err) {
     },
     2
   );
+}
+
+function gwGetAccountInfo(key, cb, cb_err) {
+  cb_err = cb_err || function(e){console.log(e)};
+  if (_apiGetCache('account', key) != null) {
+      cb(_apiGetCache('account', key));
+      return;
+  }
+    _GW2.getAccount(key, function(data) { // cb
+	_apiSetCache('account', key, data);
+	cb(data);
+    }, function(status, text, data) { // cb_err
+	_apiSetCache('account', key, null);
+	cb_err([status, text, data]);
+    });
+    
 }

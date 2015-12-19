@@ -1,0 +1,13 @@
+#key-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+#key-info p {
+    margin: 5px;
+}
+
+#curr-key-name {
+    font-weight: bold;
+    font-family: "Lucida Sans Console", monospace;
+}

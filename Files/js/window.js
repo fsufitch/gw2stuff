@@ -22,17 +22,6 @@ function closeWindow(){
   });
 };
 
-function openSubWindow(){
-  alert("the subwindow will only be visible inside a game");
-  overwolf.windows.obtainDeclaredWindow("SubWindow", function(result){
-    if (result.status == "success"){
-      overwolf.windows.restore(result.window.id, function(result){
-          console.log(result);
-      });
-    }
-  });
-};
-
 function takeScreenshot(){
   overwolf.media.takeScreenshot(function(result){
     if (result.status == "success"){
@@ -45,6 +34,3 @@ function takeScreenshot(){
   });
 }
 
-function runTeamSpeak(){
-  overwolf.extensions.launch("lafgmhfbkjljkgoggomibmhlpijaofafbdhpjgif");
-};

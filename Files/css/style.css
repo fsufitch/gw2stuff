@@ -1,0 +1,134 @@
+﻿html {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    /*background: rgba(30, 30, 30, 0.8);*/
+    background-image: url("../images/bg.png");
+    color: #fff;
+    font-family: "Segoe UI", sans;
+    cursor: default;
+}
+
+a {
+    color: #4f9dfe;
+    text-decoration: none;
+}
+
+a:active {
+    color: #5fadff;
+}
+
+a:visited {
+    color: #4f9dfe;
+}
+
+
+input[type='text'] {
+    background: rgba(0, 0, 0, 0.5);
+    border: thin solid black;
+    color: white;
+}
+
+
+/* ----------------------- */
+
+.resizeGrip {
+    background: rgba(15, 15, 15, 0.8);
+    border: black;
+    position: absolute;
+}
+
+#titlebar {
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 5px;
+}
+
+#titlebar h1 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0px;
+}
+
+#titlebar .controls {
+    
+}
+
+#content {
+    position: absolute;
+    top:5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#resizeGripTop {
+    height: 5px;
+    top: 0;
+    left: 5px;
+    right: 5px;
+    cursor: ns-resize;
+}
+
+#resizeGripBottom {
+    height: 5px;
+    bottom: 0;
+    left: 5px;
+    right: 5px;
+    cursor: ns-resize;
+}
+
+#resizeGripLeft {
+    width: 5px;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    cursor: ew-resize;
+}
+
+#resizeGripRight {
+    width: 5px;
+    right: 0;
+    top: 5px;
+    bottom: 5px;
+    cursor: ew-resize;
+}
+
+#resizeGripTopLeft {
+    width: 5px;
+    height: 5px;
+    top: 0;
+    left: 0;
+    cursor: nwse-resize;
+}
+
+#resizeGripBottomLeft {
+    width: 5px;
+    height: 5px;
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+}
+
+#resizeGripTopRight {
+    width: 5px;
+    height: 5px;
+    top: 0;
+    right: 0;
+    cursor: nesw-resize;
+}
+
+#resizeGripBottomRight {
+    width: 5px;
+    height: 5px;
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+}

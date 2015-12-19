@@ -1,0 +1,11 @@
+#keys {
+    flex-grow: 1;
+}
+
+#key-form {
+    display: flex;
+}
+
+#newkey {
+    flex-grow: 1;
+}
