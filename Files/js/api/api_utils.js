@@ -45,11 +45,11 @@ function gwGetItem(item_id, cb, cb_err) {
 }
 
 function gwGetAccountInfo(key, cb, cb_err) {
-  cb_err = cb_err || function(e){console.log(e)};
-  if (_apiGetCache('account', key) != null) {
-      cb(_apiGetCache('account', key));
-      return;
-  }
+    cb_err = cb_err || function(e){console.log(e)};
+    if (_apiGetCache('account', key) != null) {
+	cb(_apiGetCache('account', key));
+	return;
+    }
     _GW2.getAccount(key, function(data) { // cb
 	_apiSetCache('account', key, data);
 	cb(data);
@@ -58,4 +58,20 @@ function gwGetAccountInfo(key, cb, cb_err) {
 	cb_err([status, text, data]);
     });
     
+}
+
+function gwGetCharacterNames(key, cb, cb_err) {
+    cb_err = cb_err || function(e){console.log(e)};
+
+    _GW2.getCharacters(key, cb, function(status, text, data) { // cb_err
+	cb_err([status, text, data]);
+    });
+}
+
+function gwGetBank(key, cb, cb_err) {
+    cb_err = cb_err || function(e){console.log(e)};
+
+    _GW2.getAccountBank(key, cb, function(status, text, data) { // cb_err
+	cb_err([status, text, data]);
+    });
 }

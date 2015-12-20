@@ -19,18 +19,20 @@ function showItem(item) {
 }
 
 function storageChanged(e) {
+    console.log(e);
+    if (e != null && e.key != 'item_id') return;
     var item_id = localStorage.getItem('item_id');
     item_id = parseInt(item_id);
-    if (item_id == currentItemId) {
+    if (item_id == currentItemId || item_id == NaN) {
       return;
     }
-    if (item_id != null && item_id != NaN) {
+    if (item_id != null && !!item_id /*wtf, NaN*/) {
       gwGetItem(item_id, showItem);
     }
 }
 
-$(window).bind('storage', storageChanged);
 
 $(document).ready(function() {
-  storageChanged();
+    window.addEventListener('storage', storageChanged);
+    storageChanged();
 })
