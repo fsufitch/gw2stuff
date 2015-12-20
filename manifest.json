@@ -3,7 +3,7 @@
     "type":"WebApp",
     "meta":{
 	"name":"All My GW2 Stuff",
-	"version":"0.0.2",
+	"version":"0.0.3",
 	"minimum-overwolf-version":"0.77.10",
 	"author":"Blackshell",
 	"icon":"IconMouseOver.png",
@@ -17,14 +17,14 @@
 		"file":"Files/index.html",
 		"transparent":true,
 		"resizable":true,
-		"size":{"width":400, "height":300},
-		"min_size":{"width":200, "height":200},
-		"max_size":{"width":900, "height":800}
+		"size":{"width":300, "height":300},
+		"min_size":{"width":300, "height":300},
+		"max_size":{"width":1600, "height":1000}
 	    },
 	    "ItemInfoWindow": {
 		"file": "Files/item.html",
 		"transparent": true,
-		"resizable": true,
+		"resizable": false,
 		"size": {"width": 300, "height": 400}
 	    },
 	    "ApiManagementWindow": {

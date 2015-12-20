@@ -3,10 +3,9 @@ var currentItemId = null;
 function windowResize() {
    var contentWidth = $("#content-wrap").width();
    var contentHeight = $("#content-wrap").height();
-   console.log("Resize "+ contentWidth + " "+ contentHeight);
    overwolf.windows.getCurrentWindow(function(r) {
      console.log(r);
-     overwolf.windows.changeSize(r.window.id, contentWidth+20, contentHeight+20);
+       overwolf.windows.changeSize(r.window.id, 300, contentHeight+10);
    });
 }
 

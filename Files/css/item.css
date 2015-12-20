@@ -6,6 +6,10 @@ body {
   font-family: "Segoe UI", arial, sans-serif;
 }
 
+#content-wrap {
+  width: max-content;
+}
+
 img#item-icon {
   width: 28px;
   height: 28px;
