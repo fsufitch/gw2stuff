@@ -1,9 +1,17 @@
-function _apiSetCache(prefix, id, value) {
+function _apiSetCache(prefix, id, value, timeout) {
+    if (timeout === undefined || timeout === null) {
+	timeout = 60 * 60 * 24;
+    }
     var key = "++Cache++" + prefix + "++" + id;
     if (value == null) {
 	window.localStorage.removeItem(key);
     } else {
-	window.localStorage.setItem(key, JSON.stringify(value));
+	var cacheEntry = {
+	    'value': value,
+	    'timestamp': parseInt(Date.now()/1000),
+	    'timeout': timeout,
+	};
+	window.localStorage.setItem(key, JSON.stringify(cacheEntry));
     }
 }
 
@@ -11,9 +19,26 @@ function _apiGetCache(prefix, id) {
     var key = "++Cache++" + prefix + "++" + id;
     var value = window.localStorage.getItem(key);
     if (value != null) {
-	value = JSON.parse(value);
+	var cacheEntry = JSON.parse(value);
+	var hardClearTime = parseInt(window.localStorage.getItem("++Cache++HardClear")) || 0;
+	if (hardClearTime > 0 && cacheEntry.timestamp > hardClearTime) {
+	    _apiSetCache(prefix, id, null); // forced expire
+	    return null; 
+	}
+	var now = parseInt(Date.now()/1000);
+	if ((cacheEntry.timestamp + cacheEntry.timeout) > now) {
+	    _apiSetCache(prefix, id, null); // timeout expire
+	    return null;
+	}
+	return cacheEntry.value;
+    } else {
+	return null;
     }
-    return value;
+}
+
+function gwClearCache() {
+    var now = parseInt(Date.now()/1000);
+    window.localStorage.setItem("++Cache++HardClear", now);
 }
 
 /////////
@@ -72,6 +97,31 @@ function gwGetBank(key, cb, cb_err) {
     cb_err = cb_err || function(e){console.log(e)};
 
     _GW2.getAccountBank(key, cb, function(status, text, data) { // cb_err
+	cb_err([status, text, data]);
+    });
+}
+
+function gwGetMaterialCategories(cb, cb_err) {
+    if (_apiGetCache("static", "materials") != null) {
+	cb(_apiGetCache("static", "materials"));
+    }
+    _GW2.getMaterials(function(matIds) {
+	_GW2.getMaterialsByID(matIds, api_settings.language, function(catArray) {
+	    var matMap = {};
+	    for (var i=0; i<catArray.length; i++) {
+		var cat = catArray[i];
+		matMap[cat.id] = cat;
+	    }
+	    _apiSetCache("static", "materials", matMap);
+	    cb(matMap);
+	}, cb_err);
+    }, cb_err);
+}
+
+function gwGetMaterials(key, cb, cb_err) {
+    cb_err = cb_err || function(e){console.log(e)};
+
+    _GW2.getAccountMaterials(key, cb, function(status, text, data) { // cb_err
 	cb_err([status, text, data]);
     });
 }

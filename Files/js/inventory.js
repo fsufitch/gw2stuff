@@ -23,6 +23,7 @@ function makeItemComponent(itemId, count) {
     if (!itemId) {
 	itemDiv.addClass("empty");
     } else {
+	var transparent = (count == 0);
 	if (count > 1) {
 	    itemDiv.append(countLabel);
 	}
@@ -30,7 +31,16 @@ function makeItemComponent(itemId, count) {
 	itemDiv.addClass("loading");
 	gwGetItem(itemId, function(item) {
 	    itemDiv.removeClass("loading");
-	    itemDiv.css("background-image", "url(" + item.icon + ")");
+	    if (!transparent) {
+		itemDiv.css("background-image", "url(" + item.icon + ")");
+	    } else {
+		// super hax
+		itemDiv.addClass("empty");
+		var transparentDiv = $("<div />")
+		    .css("background-image", "url(" + item.icon + ")")
+		    .addClass("zeroCount");
+		itemDiv.append(transparentDiv);
+	    }
 	});
     
 
@@ -90,6 +100,66 @@ function invBank() {
 	$("#items_container").append(itemPanel);
     });
 }
+
+
+function _invDisplayMaterials(categories, itemCounts) {
+    $("#items_container").empty();
+
+    console.log(categories);
+    console.log(itemCounts);
+    for (var catId in categories) {
+	var category = categories[catId];
+	$("#items_container").append($("<div />", {
+	    'text': category.name,
+	    'class': 'text_divider',
+	}));
+	var itemPanel = $("<div />", {"class": "items"});
+	for (var i=0; i<category.items.length; i++) {
+	    var itemId = category.items[i];
+	    var count = itemCounts[itemId] || 0;
+	    var itemDiv = makeItemComponent(itemId, count);
+	    itemPanel.append(itemDiv);
+	}
+	$("#items_container").append(itemPanel);
+    }
+}
+
+function invMaterials() {
+    var keys = window.localStorage.getItem("API_KEYS") || "{}";
+    keys = JSON.parse(keys);
+
+    var keyId = window.localStorage.getItem("CURRENT_KEY_ID");
+    var apiKey = keys[keyId].key;
+
+    function cb_err(status, text, data, event) {
+	console.log([status, text, data, event]);
+    }
+    gwGetMaterialCategories(function(categories) {
+	gwGetMaterials(apiKey, function(items) {
+	    var itemCounts = {};
+	    for (var i=0; i<items.length; i++) {
+		var item = items[i];
+		itemCounts[item.id] = item.count;
+	    }
+	    _invDisplayMaterials(categories, itemCounts);
+	}, cb_err);
+    }, cb_err);
+    
+}
+
+function invSampleMaterials() {
+    gwGetMaterialCategories(function(categories) {
+	var itemCounts = {};
+	for (var catId in categories) {
+	    for (var i=0; i<categories[catId].items.length; i++) {
+		var itemId = categories[catId].items[i];
+		itemCounts[itemId] = Math.floor(Math.random() * 251);
+	    }
+	}
+	_invDisplayMaterials(categories, itemCounts);
+    }, function(a, b, c, d) {console.log([a,b,c,d]);});
+}
+
 
 function invSampleBank() {
     $("#items_container").empty();

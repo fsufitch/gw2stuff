@@ -13,13 +13,21 @@ function viewSelected(ev) {
 	console.log("sample bank!")
 	invSampleBank();
     }
+    else if (parts[0] == "materials" && parts[1] == "real") {
+	console.log("real mats!")
+	invMaterials();
+    }
+    else if (parts[0] == "materials" && parts[1] == "sample") {
+	console.log("sample mats!")
+	invSampleMaterials();
+    }
 }
 
 function updateCharacters() {
     var keyId = window.localStorage.getItem("CURRENT_KEY_ID");
     var keys = window.localStorage.getItem("API_KEYS") || "{}";
     keys = JSON.parse(keys);
-    var apiKey = keys[keyId].key;
+    var apiKey = ((keys && keys[keyId]) ? keys[keyId].key : null);
 
     function updateViews(nameList) {
 	var views = [];
@@ -56,11 +64,15 @@ function updateCharacters() {
 	}
 	$("#viewselect input[value^=bank]").prop("checked", true).trigger("change");
     }
-    
-    gwGetCharacterNames(apiKey, updateViews, function(err) { // cb_err
-	alert(err);
+
+    if (apiKey != null) {
+	gwGetCharacterNames(apiKey, updateViews, function(err) { // cb_err
+	    alert(err);
+	    updateViews([]);
+	});
+    } else {
 	updateViews([]);
-    });
+    }
 }
 
 function updateApiKey() {
@@ -72,10 +84,9 @@ function updateApiKey() {
     if (keys[newKeyId] == null) { // something invalid
 	console.log("invalid");
 	$("#curr-key-name").text("<no key>");
-	return
+    } else {
+	$("#curr-key-name").text(keys[newKeyId].name);
     }
-    
-    $("#curr-key-name").text(keys[newKeyId].name);
     updateCharacters();
 }
 
