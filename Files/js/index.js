@@ -20,6 +20,8 @@ function viewSelected(ev) {
     else if (parts[0] == "materials" && parts[1] == "sample") {
 	console.log("sample mats!")
 	invSampleMaterials();
+    } else if (parts[0] == "char") {
+	invCharacter(parts[1]);
     }
 }
 

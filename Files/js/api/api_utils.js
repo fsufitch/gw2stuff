@@ -125,3 +125,11 @@ function gwGetMaterials(key, cb, cb_err) {
 	cb_err([status, text, data]);
     });
 }
+
+function gwGetCharacter(key, charName, cb, cb_err) {
+    cb_err = cb_err || function(e){console.log(e)};
+
+    _GW2.getCharacter(key, charName, cb, function(status, text, data) { // cb_err
+	cb_err([status, text, data]);
+    });
+}

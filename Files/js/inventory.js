@@ -63,6 +63,8 @@ function makeItemComponent(itemId, count) {
     return itemDiv;
 }
 
+//////////// BANK DISPLAY
+
 function invBank() {
     $("#items_container").empty();
 
@@ -101,6 +103,8 @@ function invBank() {
     });
 }
 
+
+//////////// MATERIALS DISPLAY
 
 function _invDisplayMaterials(categories, itemCounts) {
     $("#items_container").empty();
@@ -146,6 +150,82 @@ function invMaterials() {
     }, cb_err);
     
 }
+
+//////////// CHARACTER DISPLAY
+
+var _INVSLOTS = ["HelmAquatic",
+		 "Backpack",
+		 "Coat",
+		 "Boots",
+		 "Gloves",
+		 "Helm",
+		 "Leggings",
+		 "Shoulders",
+		 "Accessory1",
+		 "Accessory2",
+		 "Ring1",
+		 "Ring2",
+		 "Amulet",
+		 "WeaponAquaticA",
+		 "WeaponAquaticB",
+		 "WeaponA1",
+		 "WeaponB1",
+		 "WeaponA2",
+		 "WeaponB2",
+		 "Sickle",
+		 "Axe",
+		 "Pick",
+		];
+
+function _invDisplayCharacter(equipment, bags) {
+    $("#items_container").empty();
+    for (var i=0; i<bags.length; i++) {
+	var bag = bags[i];
+	$("#items_container").append($("<div />", {
+	    'text': bag.size + " slot bag",
+	    'class': 'text_divider',
+	}));
+
+	var itemPanel = $("<div />", {
+	    "class": "items",
+	});
+	for (var j=0; j<bag.inventory.length; j++) {
+	    var itemDiv;
+	    if (bag.inventory[j]) {
+		itemDiv = makeItemComponent(bag.inventory[j].id, bag.inventory[j].count);
+	    } else {
+		itemDiv = makeItemComponent(null);
+	    }
+	    itemPanel.append(itemDiv);
+	}
+	$("#items_container").append(itemPanel);
+    }
+}
+
+function invCharacter(charName) {
+    var keys = window.localStorage.getItem("API_KEYS") || "{}";
+    keys = JSON.parse(keys);
+
+    var keyId = window.localStorage.getItem("CURRENT_KEY_ID");
+    var apiKey = keys[keyId].key;
+
+    function cb_err(status, text, data, event) {
+	console.log([status, text, data, event]);
+    }
+    console.log("Displaying character: " + charName);
+    gwGetCharacter(apiKey, charName, function(character) {
+	console.log(character);
+	var equipment = {};
+	var bags = character.bags || [];
+	_invDisplayCharacter(equipment, bags);
+	
+    }, cb_err);
+    
+}
+
+
+
+//////////// SAMPLE DISPLAY
 
 function invSampleMaterials() {
     gwGetMaterialCategories(function(categories) {
