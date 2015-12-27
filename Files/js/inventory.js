@@ -177,8 +177,70 @@ var _INVSLOTS = ["HelmAquatic",
 		 "Pick",
 		];
 
+function _invDisplayEquipment(equipment) {
+    // Make a more useful object of equipment
+    var slots = {};
+    for (var i=0; i<_INVSLOTS.length; i++) {
+	slots[_INVSLOTS[i]] = {};
+    }
+    for (var i=0; i<equipment.length; i++) {
+	slots[equipment[i].slot] = equipment[i];
+    }
+    console.log(slots);
+    console.log(equipment);
+    
+    $("#items_container").append($("<div />", {
+	'text': "Equipped Items",
+	'class': 'text_divider',
+    }));
+
+    var equipContainer = $("<div />", {
+	'class': 'equipment',
+    });
+
+    // Armor
+    var armor = $("<div />", {
+	'class': 'centered-vertical',
+    });
+
+    
+    armor.append($("<span />", {"style": "display: flex"})
+		 .append(makeItemComponent(slots["Helm"].id || null, 1))
+		 .append(makeItemComponent(slots["HelmAquatic"].id || null, 1))
+		);
+
+    armor.append(makeItemComponent(slots["Shoulders"].id || null, 1));
+    armor.append(makeItemComponent(slots["Coat"].id || null, 1));
+    armor.append(makeItemComponent(slots["Gloves"].id || null, 1));
+    armor.append(makeItemComponent(slots["Leggings"].id || null, 1));
+    armor.append(makeItemComponent(slots["Boots"].id || null, 1));
+    
+    equipContainer.append(armor);
+
+    var rightPanel = $("<div />", {
+	'class': 'right-panel',
+    });
+
+    var armor2 = $("<div />", {"style": "margin-left: 20px"});
+    armor2.append(makeItemComponent(slots["Backpack"].id || null, 1));
+    armor2.append(makeItemComponent(slots["Accessory1"].id || null, 1));
+    armor2.append(makeItemComponent(slots["Accessory2"].id || null, 1));
+    armor2.append($("<br />"));
+    armor2.append(makeItemComponent(slots["Amulet"].id || null, 1));
+    armor2.append(makeItemComponent(slots["Ring1"].id || null, 1));
+    armor2.append(makeItemComponent(slots["Ring2"].id || null, 1));
+
+
+    rightPanel.append(armor2);
+    
+    equipContainer.append(rightPanel);
+
+    $("#items_container").append(equipContainer);
+}
+
 function _invDisplayCharacter(equipment, bags) {
     $("#items_container").empty();
+    _invDisplayEquipment(equipment);
     for (var i=0; i<bags.length; i++) {
 	var bag = bags[i];
 	$("#items_container").append($("<div />", {
@@ -215,9 +277,8 @@ function invCharacter(charName) {
     console.log("Displaying character: " + charName);
     gwGetCharacter(apiKey, charName, function(character) {
 	console.log(character);
-	var equipment = {};
-	var bags = character.bags || [];
-	_invDisplayCharacter(equipment, bags);
+	_invDisplayCharacter(character.equipment || [],
+			     character.bags || []);
 	
     }, cb_err);
     
