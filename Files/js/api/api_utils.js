@@ -23,7 +23,7 @@ function _apiGetCache(prefix, id) {
 	var hardClearTime = parseInt(window.localStorage.getItem("++Cache++HardClear")) || 0;
 	if (hardClearTime > 0 && cacheEntry.timestamp > hardClearTime) {
 	    _apiSetCache(prefix, id, null); // forced expire
-	    return null; 
+	    return null;
 	}
 	var now = parseInt(Date.now()/1000);
 	if ((cacheEntry.timestamp + cacheEntry.timeout) > now) {
@@ -41,6 +41,7 @@ function gwClearCache() {
     window.localStorage.setItem("++Cache++HardClear", now);
 }
 
+
 /////////
 
 var _GW2 = FW_GW2();
@@ -48,6 +49,30 @@ var api_settings = {
   "language": "en"
 };
 
+function gwGetItem(id, cb, cb_err) {
+  if (typeof DB_ItemTypes !== "undefined") {
+    var results = DB_ItemTypes({"id": id}).get();
+    if (results.length > 0) {
+      // TODO: enable item cache clearing
+      cb(results[0]);
+      return;
+    }
+  }
+
+  _GW2.getItem(id, api_settings.language,
+    function(data) {
+      DB_ItemTypes.insert(data);
+      cb(data);
+    },
+    function(status, text, data) {
+      DB_ItemTypes({"id": id}).remove();
+      cb_err([status, text, data]);
+    },
+    2
+  );
+
+}
+/*
 function gwGetItem(item_id, cb, cb_err) {
   var item_id = parseInt(item_id);
   if (item_id == null || item_id == NaN) return {'error': 'not a number id'};
@@ -67,7 +92,7 @@ function gwGetItem(item_id, cb, cb_err) {
     },
     2
   );
-}
+}*/
 
 function gwGetAccountInfo(key, cb, cb_err) {
     cb_err = cb_err || function(e){console.log(e)};
@@ -82,7 +107,7 @@ function gwGetAccountInfo(key, cb, cb_err) {
 	_apiSetCache('account', key, null);
 	cb_err([status, text, data]);
     });
-    
+
 }
 
 function gwGetCharacterNames(key, cb, cb_err) {
